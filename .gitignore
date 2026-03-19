@@ -1,0 +1,23 @@
+/vendor/
+/node_modules/
+composer.lock
+
+# IDE and editors
+/.idea/
+/.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# Testing
+/.phpunit.cache/
+/coverage/
+.phpunit.result.cache
+
+# Build artifacts
+/build/
+
+# Environment files
+.env
+.env.*
+!.env.example
