@@ -4,8 +4,8 @@ A Laravel package for integrating with Tanzania Commercial Bank's Cash Managemen
 
 ## Requirements
 
-- PHP 8.4+
-- Laravel 12.x or 13.x
+- PHP 8.2+
+- Laravel 11.x, 12.x, or 13.x
 
 ## Installation
 
@@ -357,6 +357,10 @@ it('creates an order with payment reference', function () {
     expect($response->isSuccessful())->toBeTrue();
 });
 ```
+
+## Changelog
+
+Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
 
 ## License
 

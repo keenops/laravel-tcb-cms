@@ -26,12 +26,12 @@ class TcbCmsClient implements TcbCmsClientInterface
     {
         $payload = array_merge($request->toArray(), [
             'partnerCode' => $this->getPartnerCode(),
-            'profileId' => $this->getProfileId(),
+            'profileID' => $this->getProfileId(),
         ]);
 
         $response = $this->sendRequest(
             method: 'POST',
-            url: $this->getBaseUrl().'/api/v1/cms/reference/create',
+            url: $this->getBaseUrl().'/public/api/reference/'.$this->getApiKey(),
             payload: $payload,
         );
 
@@ -46,7 +46,7 @@ class TcbCmsClient implements TcbCmsClientInterface
 
         $response = $this->sendRequest(
             method: 'POST',
-            url: $this->getBaseUrl().'/api/v1/cms/reference/cancel',
+            url: $this->getBaseUrl().'/public/api/reference/decline/'.$this->getApiKey(),
             payload: $payload,
         );
 
@@ -57,12 +57,11 @@ class TcbCmsClient implements TcbCmsClientInterface
     {
         $payload = array_merge($request->toArray(), [
             'partnerCode' => $this->getPartnerCode(),
-            'profileId' => $this->getProfileId(),
         ]);
 
         $response = $this->sendRequest(
             method: 'POST',
-            url: $this->getReconciliationBaseUrl().'/api/v1/cms/reconciliation',
+            url: $this->getBaseUrl().'/public/api/reconciliation/'.$this->getApiKey(),
             payload: $payload,
         );
 
@@ -98,11 +97,10 @@ class TcbCmsClient implements TcbCmsClientInterface
      */
     protected function buildHttpClient(): PendingRequest
     {
-        return Http::withHeaders([
-            'Authorization' => 'Bearer '.$this->getApiKey(),
-            'Content-Type' => 'application/json',
-            'Accept' => 'application/json',
-        ])
+        return Http::asForm()
+            ->withHeaders([
+                'Accept' => 'application/json',
+            ])
             ->timeout($this->getTimeout())
             ->retry(
                 times: $this->getRetryTimes(),

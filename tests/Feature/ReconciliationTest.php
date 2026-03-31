@@ -11,7 +11,7 @@ use Keenops\LaravelTcbCms\Models\TcbTransaction;
 
 it('performs reconciliation successfully', function () {
     Http::fake([
-        '*/api/v1/cms/reconciliation' => Http::response([
+        '*/public/api/reconciliation/*' => Http::response([
             'status' => 0,
             'message' => 'Reconciliation completed',
             'totalCount' => 2,
@@ -63,7 +63,7 @@ it('performs reconciliation successfully', function () {
 
 it('logs reconciliation to the database', function () {
     Http::fake([
-        '*/api/v1/cms/reconciliation' => Http::response([
+        '*/public/api/reconciliation/*' => Http::response([
             'status' => 0,
             'message' => 'Reconciliation completed',
             'totalCount' => 1,
@@ -87,7 +87,7 @@ it('logs reconciliation to the database', function () {
 
 it('handles failed reconciliation', function () {
     Http::fake([
-        '*/api/v1/cms/reconciliation' => Http::response([
+        '*/public/api/reconciliation/*' => Http::response([
             'status' => 1,
             'message' => 'Invalid date range',
         ], 200),
@@ -108,7 +108,7 @@ it('handles failed reconciliation', function () {
 
 it('sends correct date format in reconciliation request', function () {
     Http::fake([
-        '*/api/v1/cms/reconciliation' => Http::response([
+        '*/public/api/reconciliation/*' => Http::response([
             'status' => 0,
             'message' => 'Reconciliation completed',
             'totalCount' => 0,
@@ -128,6 +128,6 @@ it('sends correct date format in reconciliation request', function () {
         return $body['startDate'] === '2024-01-15'
             && $body['endDate'] === '2024-01-20'
             && $body['partnerCode'] === 'TEST-PARTNER'
-            && $body['profileId'] === '1234567890';
+            && $body['profileID'] === '1234567890';
     });
 });

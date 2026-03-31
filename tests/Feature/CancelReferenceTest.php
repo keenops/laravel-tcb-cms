@@ -10,7 +10,7 @@ use Keenops\LaravelTcbCms\Models\TcbTransaction;
 
 it('cancels a payment reference successfully', function () {
     Http::fake([
-        '*/api/v1/cms/reference/cancel' => Http::response([
+        '*/public/api/reference/cancel/*' => Http::response([
             'status' => 0,
             'message' => 'Reference cancelled successfully',
         ], 200),
@@ -31,7 +31,7 @@ it('cancels a payment reference successfully', function () {
 
 it('logs successful reference cancellation to the database', function () {
     Http::fake([
-        '*/api/v1/cms/reference/cancel' => Http::response([
+        '*/public/api/reference/cancel/*' => Http::response([
             'status' => 0,
             'message' => 'Reference cancelled successfully',
         ], 200),
@@ -52,7 +52,7 @@ it('logs successful reference cancellation to the database', function () {
 
 it('handles failed reference cancellation', function () {
     Http::fake([
-        '*/api/v1/cms/reference/cancel' => Http::response([
+        '*/public/api/reference/cancel/*' => Http::response([
             'status' => 1,
             'message' => 'Reference not found',
         ], 200),
@@ -77,7 +77,7 @@ it('handles failed reference cancellation', function () {
 
 it('sends correct payload for reference cancellation', function () {
     Http::fake([
-        '*/api/v1/cms/reference/cancel' => Http::response([
+        '*/public/api/reference/cancel/*' => Http::response([
             'status' => 0,
             'message' => 'Reference cancelled successfully',
         ], 200),

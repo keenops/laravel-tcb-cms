@@ -10,7 +10,7 @@ use Keenops\LaravelTcbCms\Models\TcbTransaction;
 
 it('creates a payment reference successfully', function () {
     Http::fake([
-        '*/api/v1/cms/reference/create' => Http::response([
+        '*/public/api/reference/create/*' => Http::response([
             'status' => 0,
             'message' => 'Reference created successfully',
             'accountNo' => '240123456789',
@@ -38,7 +38,7 @@ it('creates a payment reference successfully', function () {
 
 it('logs successful reference creation to the database', function () {
     Http::fake([
-        '*/api/v1/cms/reference/create' => Http::response([
+        '*/public/api/reference/create/*' => Http::response([
             'status' => 0,
             'message' => 'Reference created successfully',
             'accountNo' => '240123456789',
@@ -64,7 +64,7 @@ it('logs successful reference creation to the database', function () {
 
 it('handles failed reference creation', function () {
     Http::fake([
-        '*/api/v1/cms/reference/create' => Http::response([
+        '*/public/api/reference/create/*' => Http::response([
             'status' => 1,
             'message' => 'Duplicate reference number',
         ], 200),
@@ -91,7 +91,7 @@ it('handles failed reference creation', function () {
 
 it('creates reference with optional amount and expiry date', function () {
     Http::fake([
-        '*/api/v1/cms/reference/create' => Http::response([
+        '*/public/api/reference/create/*' => Http::response([
             'status' => 0,
             'message' => 'Reference created successfully',
             'accountNo' => '240123456789',
