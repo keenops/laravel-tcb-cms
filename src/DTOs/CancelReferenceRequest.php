@@ -7,18 +7,12 @@ namespace Keenops\LaravelTcbCms\DTOs;
 readonly class CancelReferenceRequest
 {
     public function __construct(
-        public string $accountNo,
         public string $referenceNo,
     ) {}
 
-    public static function make(
-        string $accountNo,
-        string $referenceNo,
-    ): self {
-        return new self(
-            accountNo: $accountNo,
-            referenceNo: $referenceNo,
-        );
+    public static function make(string $referenceNo): self
+    {
+        return new self(referenceNo: $referenceNo);
     }
 
     /**
@@ -29,8 +23,7 @@ readonly class CancelReferenceRequest
     public function toArray(): array
     {
         return [
-            'accountNo' => $this->accountNo,
-            'referenceNo' => $this->referenceNo,
+            'refNo' => $this->referenceNo,
         ];
     }
 }

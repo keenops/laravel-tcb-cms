@@ -64,14 +64,9 @@ class TcbCms
     /**
      * Cancel a payment reference.
      */
-    public function cancelReference(
-        string $accountNo,
-        string $referenceNo,
-    ): CancelReferenceResponse {
-        $request = CancelReferenceRequest::make(
-            accountNo: $accountNo,
-            referenceNo: $referenceNo,
-        );
+    public function cancelReference(string $referenceNo): CancelReferenceResponse
+    {
+        $request = CancelReferenceRequest::make(referenceNo: $referenceNo);
 
         $response = $this->client->cancelReference($request);
 

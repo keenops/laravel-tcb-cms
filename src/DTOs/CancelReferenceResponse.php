@@ -6,7 +6,7 @@ namespace Keenops\LaravelTcbCms\DTOs;
 
 use Keenops\LaravelTcbCms\Enums\ResponseStatus;
 
-readonly class CancelReferenceResponse
+readonly class CancelReferenceResponse implements \JsonSerializable
 {
     public function __construct(
         public ResponseStatus $status,
@@ -42,5 +42,13 @@ readonly class CancelReferenceResponse
             'status' => $this->status->value,
             'message' => $this->message,
         ];
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function jsonSerialize(): array
+    {
+        return $this->toArray();
     }
 }

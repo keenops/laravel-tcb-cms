@@ -6,7 +6,7 @@ namespace Keenops\LaravelTcbCms\DTOs;
 
 use Keenops\LaravelTcbCms\Enums\ResponseStatus;
 
-readonly class CreateReferenceResponse
+readonly class CreateReferenceResponse implements \JsonSerializable
 {
     public function __construct(
         public ResponseStatus $status,
@@ -51,5 +51,13 @@ readonly class CreateReferenceResponse
             'referenceNo' => $this->referenceNo,
             'partnerCode' => $this->partnerCode,
         ];
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function jsonSerialize(): array
+    {
+        return $this->toArray();
     }
 }

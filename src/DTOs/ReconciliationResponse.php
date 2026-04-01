@@ -7,7 +7,7 @@ namespace Keenops\LaravelTcbCms\DTOs;
 use Illuminate\Support\Collection;
 use Keenops\LaravelTcbCms\Enums\ResponseStatus;
 
-readonly class ReconciliationResponse
+readonly class ReconciliationResponse implements \JsonSerializable
 {
     /**
      * @param  Collection<int, ReconciliationItem>  $transactions
@@ -58,5 +58,13 @@ readonly class ReconciliationResponse
             'totalCount' => $this->totalCount,
             'totalAmount' => $this->totalAmount,
         ];
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function jsonSerialize(): array
+    {
+        return $this->toArray();
     }
 }

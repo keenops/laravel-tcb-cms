@@ -41,6 +41,7 @@ class TcbCmsClient implements TcbCmsClientInterface
     public function cancelReference(CancelReferenceRequest $request): CancelReferenceResponse
     {
         $payload = array_merge($request->toArray(), [
+            'acctNo' => $this->getProfileId(),
             'partnerCode' => $this->getPartnerCode(),
         ]);
 
@@ -48,6 +49,7 @@ class TcbCmsClient implements TcbCmsClientInterface
             method: 'POST',
             url: $this->getBaseUrl().'/public/api/reference/decline/'.$this->getApiKey(),
             payload: $payload,
+            contentType: 'json',
         );
 
         return CancelReferenceResponse::fromArray($response);
@@ -76,10 +78,14 @@ class TcbCmsClient implements TcbCmsClientInterface
      *
      * @throws TcbCmsException
      */
-    protected function sendRequest(string $method, string $url, array $payload): array
-    {
+    protected function sendRequest(
+        string $method,
+        string $url,
+        array $payload,
+        string $contentType = 'form'
+    ): array {
         try {
-            $response = $this->buildHttpClient()
+            $response = $this->buildHttpClient($contentType)
                 ->{strtolower($method)}($url, $payload);
 
             return $this->handleResponse($response);
@@ -95,17 +101,18 @@ class TcbCmsClient implements TcbCmsClientInterface
     /**
      * Build the HTTP client with proper configuration.
      */
-    protected function buildHttpClient(): PendingRequest
+    protected function buildHttpClient(string $contentType = 'form'): PendingRequest
     {
-        return Http::asForm()
-            ->withHeaders([
-                'Accept' => 'application/json',
-            ])
+        $http = Http::withHeaders([
+            'Accept' => 'application/json',
+        ])
             ->timeout($this->getTimeout())
             ->retry(
                 times: $this->getRetryTimes(),
                 sleepMilliseconds: $this->getRetrySleep(),
             );
+
+        return $contentType === 'json' ? $http->asJson() : $http->asForm();
     }
 
     /**

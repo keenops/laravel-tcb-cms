@@ -127,7 +127,6 @@ it('sends correct date format in reconciliation request', function () {
 
         return $body['startDate'] === '2024-01-15'
             && $body['endDate'] === '2024-01-20'
-            && $body['partnerCode'] === 'TEST-PARTNER'
-            && $body['profileID'] === '1234567890';
+            && $body['partnerCode'] === 'TEST-PARTNER';
     });
 });

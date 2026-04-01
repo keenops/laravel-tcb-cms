@@ -10,7 +10,7 @@ use Keenops\LaravelTcbCms\Models\TcbTransaction;
 
 it('cancels a payment reference successfully', function () {
     Http::fake([
-        '*/public/api/reference/cancel/*' => Http::response([
+        '*/public/api/reference/decline/*' => Http::response([
             'status' => 0,
             'message' => 'Reference cancelled successfully',
         ], 200),
@@ -18,10 +18,7 @@ it('cancels a payment reference successfully', function () {
 
     Event::fake([ReferenceCancelled::class]);
 
-    $response = TcbCms::cancelReference(
-        accountNo: '240123456789',
-        referenceNo: '999MYREF001',
-    );
+    $response = TcbCms::cancelReference(referenceNo: '999MYREF001');
 
     expect($response->isSuccessful())->toBeTrue()
         ->and($response->message)->toBe('Reference cancelled successfully');
@@ -31,16 +28,13 @@ it('cancels a payment reference successfully', function () {
 
 it('logs successful reference cancellation to the database', function () {
     Http::fake([
-        '*/public/api/reference/cancel/*' => Http::response([
+        '*/public/api/reference/decline/*' => Http::response([
             'status' => 0,
             'message' => 'Reference cancelled successfully',
         ], 200),
     ]);
 
-    TcbCms::cancelReference(
-        accountNo: '240123456789',
-        referenceNo: '999MYREF001',
-    );
+    TcbCms::cancelReference(referenceNo: '999MYREF001');
 
     expect(TcbTransaction::count())->toBe(1);
 
@@ -52,7 +46,7 @@ it('logs successful reference cancellation to the database', function () {
 
 it('handles failed reference cancellation', function () {
     Http::fake([
-        '*/public/api/reference/cancel/*' => Http::response([
+        '*/public/api/reference/decline/*' => Http::response([
             'status' => 1,
             'message' => 'Reference not found',
         ], 200),
@@ -60,10 +54,7 @@ it('handles failed reference cancellation', function () {
 
     Event::fake([ReferenceCancelled::class]);
 
-    $response = TcbCms::cancelReference(
-        accountNo: '240123456789',
-        referenceNo: '999MYREF001',
-    );
+    $response = TcbCms::cancelReference(referenceNo: '999MYREF001');
 
     expect($response->isSuccessful())->toBeFalse()
         ->and($response->message)->toBe('Reference not found');
@@ -77,22 +68,19 @@ it('handles failed reference cancellation', function () {
 
 it('sends correct payload for reference cancellation', function () {
     Http::fake([
-        '*/public/api/reference/cancel/*' => Http::response([
+        '*/public/api/reference/decline/*' => Http::response([
             'status' => 0,
             'message' => 'Reference cancelled successfully',
         ], 200),
     ]);
 
-    TcbCms::cancelReference(
-        accountNo: '240123456789',
-        referenceNo: '999MYREF001',
-    );
+    TcbCms::cancelReference(referenceNo: '999MYREF001');
 
     Http::assertSent(function ($request) {
-        $body = $request->data();
+        $body = json_decode($request->body(), true);
 
-        return $body['accountNo'] === '240123456789'
-            && $body['referenceNo'] === '999MYREF001'
+        return $body['acctNo'] === '1234567890'
+            && $body['refNo'] === '999MYREF001'
             && $body['partnerCode'] === 'TEST-PARTNER';
     });
 });

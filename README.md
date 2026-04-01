@@ -110,10 +110,7 @@ $response = TcbCms::createReference(
 ### Cancel a Payment Reference
 
 ```php
-$response = TcbCms::cancelReference(
-    accountNo: '240123456789',
-    referenceNo: '999MYREF001',
-);
+$response = TcbCms::cancelReference(referenceNo: '999MYREF001');
 
 if ($response->isSuccessful()) {
     echo "Reference cancelled successfully";

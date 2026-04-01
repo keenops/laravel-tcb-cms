@@ -10,6 +10,7 @@ enum ResponseStatus: int
     case Failure = 1;
     case ConnectionError = 2;
     case ApiKeyError = 4;
+    case ReferenceNotFound = 96;
 
     public function isSuccessful(): bool
     {
@@ -23,6 +24,7 @@ enum ResponseStatus: int
             self::Failure => 'Failure',
             self::ConnectionError => 'Connection Error',
             self::ApiKeyError => 'Invalid API Key',
+            self::ReferenceNotFound => 'Reference Not Found',
         };
     }
 }

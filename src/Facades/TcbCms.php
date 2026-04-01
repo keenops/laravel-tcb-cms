@@ -12,7 +12,7 @@ use Keenops\LaravelTcbCms\DTOs\ReconciliationResponse;
 
 /**
  * @method static CreateReferenceResponse createReference(string $reference, string $name, string $mobile, string $message, ?float $amount = null, ?string $expiryDate = null)
- * @method static CancelReferenceResponse cancelReference(string $accountNo, string $referenceNo)
+ * @method static CancelReferenceResponse cancelReference(string $referenceNo)
  * @method static ReconciliationResponse reconcile(CarbonInterface $startDate, CarbonInterface $endDate)
  *
  * @see \Keenops\LaravelTcbCms\TcbCms

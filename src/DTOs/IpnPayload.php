@@ -7,7 +7,7 @@ namespace Keenops\LaravelTcbCms\DTOs;
 use Carbon\Carbon;
 use Carbon\CarbonInterface;
 
-readonly class IpnPayload
+readonly class IpnPayload implements \JsonSerializable
 {
     public function __construct(
         public string $transactionId,
@@ -67,5 +67,13 @@ readonly class IpnPayload
             'accountNo' => $this->accountNo,
             'partnerCode' => $this->partnerCode,
         ];
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function jsonSerialize(): array
+    {
+        return $this->toArray();
     }
 }
